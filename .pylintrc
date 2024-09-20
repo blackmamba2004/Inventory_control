@@ -1,0 +1,16 @@
+[MESSAGES CONTROL]
+disable = missing-function-docstring,
+        missing-module-docstring,
+        missing-class-docstring,
+        import-outside-toplevel,
+        attribute-defined-outside-init,
+        line-too-long,
+        invalid-str-returned,
+        no-member, 
+        unused-variable
+
+[MASTER]
+init-hook='import sys; 
+           from django.conf import settings; 
+           from pathlib import Path; 
+           sys.path.append(str(Path(settings.BASE_DIR)))'
