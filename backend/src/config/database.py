@@ -1,6 +1,4 @@
 from sqlalchemy import create_engine
-# from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.exc import OperationalError
 from sqlalchemy.orm import sessionmaker, declarative_base
 
 db_username = 'postgres'
@@ -15,11 +13,3 @@ engine = create_engine(connectionString, echo=False)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
 Base = declarative_base()
-
-try:
-    # Подключаемся к базе данных
-    with engine.connect() as connection:
-        result = connection.exec_driver_sql("SHOW port")
-        print(result.scalar())
-except OperationalError as e:
-    print(f"Connection failed: {e}")
