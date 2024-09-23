@@ -1,32 +1,51 @@
-from fastapi import APIRouter, Depends, HTTPException
-from typing import List
+from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 from src.util.db_dependency import get_db
-from .models import Order, OrderItem as OrderItemSQL
+from .models import Order
 from .schemas import *
 from src.routes.products.schemas import *
-from src.routes.products.models import Product
-from src.routes.orders.controllers import _create_order
+from src.routes.orders.controllers import _create_order, _get_order_items
+from src.routes.orders.controllers import get_object_by_id
 
 router = APIRouter(
     prefix='/orders'
 )
 
-@router.post('/', response_model=OrderResponse)
+
+@router.post('/', response_model=FullOrderResponse)
 def create_order(data: Products, db: Session = Depends(get_db)):
     return _create_order(data, db)
 
 
-# @router.post('/{order_id}', response_model=OrderResponse)
-@router.post('/{order_id}', response_model=OrderItems)
-def get_order(order_id: int, db: Session = Depends(get_db)):
-    order = db.query(Order).filter(Order.id == order_id).first()
-    if not order:
-        raise HTTPException(status_code=404, detail='Order not found')
-    
-    order_items = order.order_items
+@router.get('/', response_model=OrderResponseList)
+def order_list(db: Session = Depends(get_db)):
+    orders = db.query(Order).all()
 
-    order_items_responses = [OrderItem.model_validate(order_item) 
-                             for order_item in order_items]
+    order_list = [OrderResponse.model_validate(order) for order in orders]
     
-    return OrderItems(order_items=order_items_responses)
+    return OrderResponseList(orders=order_list)
+
+
+@router.get('/{order_id}', response_model=FullOrderResponse)
+def get_order(order_id: int, db: Session = Depends(get_db)):
+    order = get_object_by_id(db, Order, order_id)
+
+    order_items, price = _get_order_items(order)
+
+    return {
+        'id': order.id,
+        'created': order.created,
+        'state': order.state,
+        'total_price': price,
+        'order_items': order_items
+    }
+
+
+@router.patch('/{order_id}/status', response_model=OrderResponse)
+def update_order_status(order_id: int, request: UpdateOrderState, db: Session = Depends(get_db)):
+    order = get_object_by_id(db, Order, order_id)
+
+    order.state = request.state
+    db.commit()
+
+    return order

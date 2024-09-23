@@ -4,23 +4,33 @@ from typing import List
 from .models import *
 
 
+class UpdateOrderState(BaseModel):
+    state: OrderState
+
+
 class OrderItem(BaseModel):
-    """db_table = order_item"""
     product_id: int
+    title: str
+    price: float
     count: int
 
-    class Config:
-        orm_mode = True
-        from_attributes=True
+
+class FullOrderResponse(BaseModel):
+    id: int
+    created: datetime
+    state: OrderState
+    total_price: float
+    order_items: List[OrderItem]
 
 
 class OrderResponse(BaseModel):
-    """db_table = order"""
-    order_id: int
+    id: int
     created: datetime
     state: OrderState
-    order_items: List[OrderItem]
+
+    class Config:
+        from_attributes = True
 
 
-class OrderItems(BaseModel):
-    order_items: List[OrderItem]
+class OrderResponseList(BaseModel):
+    orders: List[OrderResponse]

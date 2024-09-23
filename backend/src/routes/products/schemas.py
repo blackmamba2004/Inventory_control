@@ -21,14 +21,21 @@ class UpdateProduct(BaseModel):
     count: int
 
 
-class ProductResponse(BaseModel):
+class FullProductResponse(BaseModel):
+    id: int
     title: str
     description: str
     price: float
     count: int
 
+
+class ProductResponse(BaseModel):
+    id: int
+    title: str
+    price: float
+    count: int
+
     class Config:
-        orm_mode = True
         from_attributes=True
 
 
