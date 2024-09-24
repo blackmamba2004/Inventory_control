@@ -1,10 +1,10 @@
 from fastapi import HTTPException
 from datetime import datetime
 from sqlalchemy.orm import Session
-from src.routes.orders.models import *
+from .models import *
 from src.routes.products.models import *
 from src.routes.products.schemas import Products
-from src.routes.orders.schemas import OrderItem as OrderItemPy
+from .schemas import OrderItem as OrderItemPy
 
 
 def create_new_order(db: Session):
@@ -12,7 +12,7 @@ def create_new_order(db: Session):
     db.add(new_order)
     db.commit()
     return new_order
-
+ 
 
 def get_object_by_id(db: Session, model, object_id: int):
     object = db.query(model).filter(model.id == object_id).first()
@@ -50,6 +50,7 @@ def _create_order(data: Products, db: Session):
         requested_count = product.count
 
         product = get_object_by_id(db, Product, product_id)
+        product_price = product.price
 
         check_count(product, requested_count)
 
@@ -58,11 +59,11 @@ def _create_order(data: Products, db: Session):
         order_items.append({
             'product_id': product_id,
             'title': product.title,
-            'price': product.price*requested_count,
+            'price': product_price,
             'count': requested_count
         })
 
-        total_price += requested_count * product.price
+        total_price += requested_count * product_price
     
     db.commit()
     return {
@@ -87,12 +88,11 @@ def _get_order_items(order: Order):
         order_item_count = order_item.count
 
         total_price += order_item_product_price * order_item_count
-        price = order_item_product_price * order_item_count
 
         item_data = {
             'product_id': order_item.product_id,
             'title': order_item.product.title, 
-            'price': price,
+            'price': order_item_product_price,
             'count': order_item_count
         }
 

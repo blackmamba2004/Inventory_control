@@ -2,11 +2,6 @@ from pydantic import BaseModel
 from typing import List
 
 
-class ProductItem(BaseModel):
-    id: int
-    count: int
-
-
 class CreateProduct(BaseModel):
     title: str
     description: str
@@ -41,6 +36,15 @@ class ProductResponse(BaseModel):
 
 class ProductResponseList(BaseModel):
     products: List[ProductResponse]
+
+
+"""
+    Ниженаходящиеся схемы относятся к логике 
+    обработки заказов и применяются в orders/main.py
+"""
+class ProductItem(BaseModel):
+    id: int
+    count: int
 
 
 class Products(BaseModel):
