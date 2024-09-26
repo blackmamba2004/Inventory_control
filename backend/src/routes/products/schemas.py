@@ -1,4 +1,4 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, ConfigDict
 from typing import List
 
 
@@ -23,6 +23,8 @@ class FullProductResponse(BaseModel):
     price: float
     count: int
 
+    model_config = ConfigDict(from_attributes=True)
+
 
 class ProductResponse(BaseModel):
     id: int
@@ -30,8 +32,7 @@ class ProductResponse(BaseModel):
     price: float
     count: int
 
-    class Config:
-        from_attributes=True
+    model_config = ConfigDict(from_attributes=True)
 
 
 class ProductResponseList(BaseModel):
@@ -45,6 +46,8 @@ class ProductResponseList(BaseModel):
 class ProductItem(BaseModel):
     id: int
     count: int
+
+    model_config = ConfigDict(from_attributes=True)
 
 
 class Products(BaseModel):

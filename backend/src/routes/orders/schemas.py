@@ -1,4 +1,4 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, ConfigDict
 from datetime import datetime
 from typing import List
 from .models import *
@@ -41,8 +41,7 @@ class OrderResponse(BaseModel):
     created: datetime
     state: OrderState
 
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)
 
 
 class OrderResponseList(BaseModel):

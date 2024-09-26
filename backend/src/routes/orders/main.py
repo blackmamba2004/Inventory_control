@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
-from src.util.db_dependency import get_db
+from settings.db_dependency import get_db
 from .models import Order
 from .schemas import *
 from src.routes.products.schemas import *
@@ -19,7 +19,7 @@ def create_order(data: Products, db: Session = Depends(get_db)):
 
 @router.get('/', response_model=OrderResponseList)
 def order_list(db: Session = Depends(get_db)):
-    orders = db.query(Order).all()
+    orders = db.query(Order).order_by(Order.created)
 
     order_list = [OrderResponse.model_validate(order) for order in orders]
     

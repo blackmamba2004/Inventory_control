@@ -1,4 +1,4 @@
-from src.config.database import Base
+from settings.database import Base
 from sqlalchemy import Column, Integer, String, Text, Float
 from sqlalchemy.orm import relationship
 
@@ -13,4 +13,3 @@ class Product(Base):
 
     #один ко многим 
     order_items = relationship('OrderItem', back_populates='product')
-

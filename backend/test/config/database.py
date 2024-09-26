@@ -5,7 +5,7 @@ db_username = 'postgres'
 db_password = '1234'
 db_url = '127.0.0.1'
 db_port = '5432'
-db_name = 'Inventory_control'
+db_name = 'Test_inventory_control'
 
 connectionString = f'postgresql://{db_username}:{db_password}@{db_url}:{db_port}/{db_name}'
 

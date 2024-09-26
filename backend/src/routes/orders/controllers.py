@@ -1,6 +1,7 @@
 from fastapi import HTTPException
 from datetime import datetime
 from sqlalchemy.orm import Session
+from sqlalchemy.orm.exc import NoResultFound
 from .models import *
 from src.routes.products.models import *
 from src.routes.products.schemas import Products
@@ -12,14 +13,18 @@ def create_new_order(db: Session):
     db.add(new_order)
     db.commit()
     return new_order
- 
 
-def get_object_by_id(db: Session, model, object_id: int):
+
+def get_object_by_id(db: Session, model, object_id: int, test_flag=False):
     object = db.query(model).filter(model.id == object_id).first()
 
-    if not object:
+    if not object and test_flag == False:
         raise HTTPException(status_code=404, 
                             detail=f'{model.__name__}'
+                            f' with {model.__name__.lower()}_id = {object_id} not found')
+    
+    if not object and test_flag == True:
+        raise NoResultFound(f'{model.__name__}'
                             f' with {model.__name__.lower()}_id = {object_id} not found')
     return object
 
