@@ -1,0 +1,23 @@
+services:
+  db:
+    image: postgres:16.4
+    restart: always
+    environment:
+      POSTGRES_DB: Inventory_control
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 1234
+    volumes:
+      - /var/lib/postgresql/16/main
+
+  backend:
+    build: .
+    restart: always
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+    environment:
+      DATABASE_URL: postgresql://postgres:1234@db:5432/Inventory_control
+
+volumes:
+  postgres_data:
