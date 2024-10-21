@@ -1,4 +1,4 @@
-from settings.database import Base
+from backend.database import Base
 from sqlalchemy import Column, Integer, DateTime, ForeignKey
 from sqlalchemy.orm import relationship
 from sqlalchemy.dialects.postgresql import ENUM as PgEnum

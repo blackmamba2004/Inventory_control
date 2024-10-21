@@ -3,8 +3,8 @@ from datetime import datetime
 from sqlalchemy.orm import Session
 from sqlalchemy.orm.exc import NoResultFound
 from .models import *
-from src.routes.products.models import *
-from src.routes.products.schemas import Products
+from src.products.models import *
+from src.products.schemas import Products
 from .schemas import OrderItem as OrderItemPy
 
 
