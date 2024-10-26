@@ -1,8 +1,10 @@
 from backend.database import Base
+from enum import Enum
+
 from sqlalchemy import Column, Integer, DateTime, ForeignKey
 from sqlalchemy.orm import relationship
 from sqlalchemy.dialects.postgresql import ENUM as PgEnum
-from enum import Enum
+
 
 
 class OrderState(Enum): 

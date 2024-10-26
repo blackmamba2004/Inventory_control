@@ -1,19 +1,23 @@
 from pydantic import BaseModel, ConfigDict
-from typing import List
+from typing import List, Optional
 
 
-class CreateProduct(BaseModel):
+class Product(BaseModel):
     title: str
     description: str
     price: float
     count: int
+
+
+class CreateProduct(Product):
+    pass
 
 
 class UpdateProduct(BaseModel):
-    title: str
-    description: str
-    price: float
-    count: int
+    title: Optional[str] = None
+    description: Optional[str] = None
+    price: Optional[float] = None
+    count: Optional[int] = None
 
 
 class FullProductResponse(BaseModel):
@@ -24,31 +28,3 @@ class FullProductResponse(BaseModel):
     count: int
 
     model_config = ConfigDict(from_attributes=True)
-
-
-class ProductResponse(BaseModel):
-    id: int
-    title: str
-    price: float
-    count: int
-
-    model_config = ConfigDict(from_attributes=True)
-
-
-class ProductResponseList(BaseModel):
-    products: List[ProductResponse]
-
-
-"""
-    Ниженаходящиеся схемы относятся к логике 
-    обработки заказов и применяются в orders/main.py
-"""
-class ProductItem(BaseModel):
-    id: int
-    count: int
-
-    model_config = ConfigDict(from_attributes=True)
-
-
-class Products(BaseModel):
-    products: List[ProductItem]

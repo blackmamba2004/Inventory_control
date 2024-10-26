@@ -1,10 +1,10 @@
 from fastapi import FastAPI
 
-from src.orders import models as order_models
-from src.products import models as product_models
+from backend.src.orders import models as order_models
+from backend.src.products import models as product_models
 
-from src.products.main import router as product_router
-from src.orders.main import router as order_router
+from backend.src.products.router import router as product_router
+from backend.src.orders.router import router as order_router
 
 app = FastAPI()
 

@@ -1,19 +1,13 @@
-from pydantic import BaseModel, ConfigDict
 from datetime import datetime
+from pydantic import BaseModel, ConfigDict
 from typing import List
 from .models import *
 
 
-"""
-    Схема обновления состояния заказа
-"""
 class UpdateOrderState(BaseModel):
     state: OrderState
 
 
-"""
-    Элемент заказа
-"""
 class OrderItem(BaseModel):
     product_id: int
     title: str
@@ -21,9 +15,6 @@ class OrderItem(BaseModel):
     count: int
 
 
-"""
-    Схема полного отображения заказа
-"""
 class FullOrderResponse(BaseModel):
     id: int
     created: datetime
@@ -32,11 +23,7 @@ class FullOrderResponse(BaseModel):
     order_items: List[OrderItem]
 
 
-"""
-    Ниженаходящиеся схемы для отображения в списке заказов 
-    и для отображения смены состояния заказа
-"""
-class OrderResponse(BaseModel):
+class Order(BaseModel):
     id: int
     created: datetime
     state: OrderState
@@ -44,5 +31,8 @@ class OrderResponse(BaseModel):
     model_config = ConfigDict(from_attributes=True)
 
 
-class OrderResponseList(BaseModel):
-    orders: List[OrderResponse]
+class ProductItem(BaseModel):
+    id: int
+    count: int
+
+    model_config = ConfigDict(from_attributes=True)

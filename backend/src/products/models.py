@@ -1,6 +1,8 @@
 from backend.database import Base
+from backend.src.orders.models import OrderItem
 from sqlalchemy import Column, Integer, String, Text, Float
-from sqlalchemy.orm import relationship
+from sqlalchemy.orm import relationship, Relationship
+
 
 class Product(Base):
     __tablename__ = 'product'
