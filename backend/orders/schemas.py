@@ -1,7 +1,9 @@
 from datetime import datetime
-from pydantic import BaseModel, ConfigDict
 from typing import List
-from .models import *
+
+from pydantic import BaseModel, ConfigDict
+
+from backend.orders.models import OrderState
 
 
 class UpdateOrderState(BaseModel):
