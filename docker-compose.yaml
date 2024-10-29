@@ -1,23 +1,21 @@
 services:
   db:
     image: postgres:16.4
-    restart: always
-    environment:
-      POSTGRES_DB: Inventory_control
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: 1234
-    volumes:
-      - /var/lib/postgresql/16/main
+    container_name: inventory_control_db
+    env_file:
+      - .env-none-dev
+    ports: 
+      - 5432:5432
 
-  backend:
-    build: .
-    restart: always
-    ports:
-      - "8000:8000"
+  inventory_control:
+    image: inventory_control_image
+    build:
+      context: .
+    container_name: inventory_control_app
+    env_file:
+      - .env-none-dev
     depends_on:
       - db
-    environment:
-      DATABASE_URL: postgresql://postgres:1234@db:5432/Inventory_control
-
-volumes:
-  postgres_data:
+    command: ["/app/docker/app.sh"]
+    ports:
+      - 7777:8000
