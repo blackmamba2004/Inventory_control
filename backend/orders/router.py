@@ -39,8 +39,6 @@ async def update_order_status(
     session: AsyncSession = Depends(get_db),
 ):
 
-    order = await OrderDAO.update(
-        session, order_id, updated_data, partial=True
-    )
+    order = await OrderDAO.update(session, order_id, updated_data, partial=True)
 
     return order

@@ -22,9 +22,7 @@ class Order(Base):
 
     id = Column(Integer, primary_key=True, autoincrement=True)
     created = Column(DateTime)
-    state = Column(
-        PgEnum(OrderState), nullable=False, default=OrderState.IN_PROCESS
-    )
+    state = Column(PgEnum(OrderState), nullable=False, default=OrderState.IN_PROCESS)
 
     # один ко многим
     order_items = relationship("OrderItem", back_populates="order")

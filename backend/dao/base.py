@@ -3,7 +3,7 @@ from pydantic import BaseModel
 from sqlalchemy import delete, func, insert, select
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from backend.database import with_session
+from backend.database import with_session, async_session_maker
 
 
 class BaseDAO:

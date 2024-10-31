@@ -84,9 +84,7 @@ class OrderDAO(BaseDAO):
     async def load_order_by_id(cls, session: AsyncSession, order_id: int):
         query = (
             select(Order)
-            .options(
-                joinedload(Order.order_items).joinedload(OrderItem.product)
-            )
+            .options(joinedload(Order.order_items).joinedload(OrderItem.product))
             .where(Order.id == order_id)
         )
         result = await session.execute(query)
@@ -102,9 +100,7 @@ class OrderDAO(BaseDAO):
             total_price += order_item.product.price * order_item.count
 
             order_items_responses.append(
-                OrderItemDAO.build_order_item_json(
-                    order_item.product, order_item.count
-                )
+                OrderItemDAO.build_order_item_json(order_item.product, order_item.count)
             )
 
         return {

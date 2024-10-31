@@ -1,9 +1,8 @@
 import asyncio
-from backend.src.products.dao import ProductDAO
-from backend.src.orders.dao import OrderDAO
+from backend.products.dao import ProductDAO
 
 async def main():
-    orders= await OrderDAO.count()
-    print(orders)
+    product = await ProductDAO.find_by_id(model_id=1)
+    print(product)
 
 asyncio.run(main())
