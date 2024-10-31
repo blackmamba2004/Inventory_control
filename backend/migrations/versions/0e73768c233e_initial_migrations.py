@@ -27,7 +27,9 @@ def upgrade() -> None:
         sa.Column("created", sa.DateTime(), nullable=True),
         sa.Column(
             "state",
-            postgresql.ENUM("SENT", "DELIVERED", "IN_PROCESS", name="orderstate"),
+            postgresql.ENUM(
+                "SENT", "DELIVERED", "IN_PROCESS", name="orderstate"
+            ),
             nullable=False,
         ),
         sa.PrimaryKeyConstraint("id"),
