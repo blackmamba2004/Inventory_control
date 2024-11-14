@@ -99,8 +99,7 @@ celerybeat-schedule.*
 *.sage.py 
 
 # Environments 
-# временно!!!
-# .env 
+.env 
 .env-none-dev
 .venv 
 env/ 
